@@ -6,16 +6,16 @@ function Navbar()
   return(
         <header className="header row">
             <nav className="navbar col navbar-expand-lg ps-3 pe-3 bg-dark-subtle">
-              <a className="navbar-brand" href="null">Navbar</a>
-              <button className="navbar-toggler" type="button">
+              <a className="navbar-brand ms-2 p-2 fs-3 border rounded-4 bg-white" href="null">Sklepik szkolny</a>
+              <!-- <button className="navbar-toggler" type="button">
                 <span className="navbar-toggler-icon"></span>
-              </button>
-              <div className="collapse navbar-collapse bg-light">
-                <div className="navbar-nav">
-                  <a className="nav-item nav-link" href="null">Home</a>
-                  <a className="nav-item nav-link" href="null">Features</a>
-                  <a className="nav-item nav-link" href="null">Pricing</a>
-                  <a className="nav-item nav-link" href="null">Disabled</a>
+              </button> -->
+              <div>
+                <div className="navbar-nav bg-light border rounded-3 ">
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="null">Logowanie</a>
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="null">Produkty</a>
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="null">Koszyk</a>
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="null">Informacje</a>
                 </div>
               </div>
             </nav>
