@@ -1,1 +1,1 @@
-Strona sklepiku szkolnego
+Strona sklepiku szkolnego.
