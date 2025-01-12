@@ -34,6 +34,29 @@ function Footer()
   );
 }
 
+function Login()
+{
+  return(
+        <main className="temp row d-flex align-items-center justify-content-center">
+          <div className="col-6 h-50 bg-dark-subtle border rounded-3 d-flex flex-column align-items-center justify-content-center">
+            <form className="p-1 w-75">
+              <div className="mb-3">
+                <label for="mail" className="form-label">Email</label>
+                <input type="email" className="form-control" id="mail" aria-describedby="emailHelp">
+              </div>
+              <div className="mb-3">
+                <label for="pass" className="form-label">Hasło</label>
+                <input type="password" className="form-control" id="pass">
+              </div>
+              <div className="mt-5 text-center">
+                <button type="submit" className="btn bg-secondary text-light w-50">Zaloguj</button>
+              </div>
+            </form>
+          </div>
+        </main>
+    );
+}
+
 function App() {
   return(
     <div className='container-fluid'>
