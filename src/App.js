@@ -27,8 +27,8 @@ function Footer()
 {
   return(
         <footer className="footer row">
-          <div className='col ps-3 pe-3 bg-dark-subtle'>
-            <p>footer</p>
+          <div className='col ps-3 pe-3 bg-dark-subtle d-flex align-items-center justify-content-left'>
+              <p className="ms-2">Kontakt: xxxx</p>
           </div>
         </footer>
   );
