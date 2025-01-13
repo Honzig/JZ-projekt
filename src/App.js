@@ -7,7 +7,10 @@ function hashCode(str) {
     (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
 }
 
-
+if(!localStorage.getItem('loggedin'))
+  {var loggedin=false;
+    localStorage.setItem('loggedin',loggedin);
+  }
 
 if(!localStorage.getItem('accounts'))
 {var Accounts=
@@ -30,10 +33,9 @@ function Navbar()
               </button> */}
               <div>
                 <div className="navbar-nav bg-light border rounded-3 ">
-                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Logowanie</button>
-                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Produkty</button>
-                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Koszyk</button>
-                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Informacje</button>
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="login">Logowanie</a>
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="/products">Produkty</a>
+                  <a className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center" href="info">Informacje</a>
                 </div>
               </div>
             </nav>
@@ -52,7 +54,7 @@ function Footer()
   );
 }
 
-function Login(status)
+function Login()
 {
   
   function Submit(e) {
@@ -64,13 +66,21 @@ function Login(status)
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
-    
+
     for(let i=0; i<Accounts.length; i++)
     {
         if(Accounts[i].email===formJson.email && Accounts[i].password===hashCode(formJson.password))
         {
           console.log('Logged in!');
-          var loggedin=true;
+          if(Accounts[i].email==="admin@admin.admin")
+          {
+            var admin=true;
+          }
+          loggedin=true;
+
+          localStorage.setItem('loggedin',true);
+
+          window.location.href = 'products'; //one level up
         }
     }
     if(!loggedin)
@@ -162,6 +172,78 @@ function Register()
     );
 }
 
+function ProductList()
+{
+  var Products=[
+    {
+      "id":0,
+      "name":"example",
+      "price":5.0,
+      "description":"desc",
+      "remaining":1,
+      "selected":false
+    }
+  ];
+
+  if(localStorage.getItem('loggedin')=='true')
+  {
+    return(
+      <section className="main row d-flex align-items-center justify-content-center">
+        <div className="col-8 h-75 bg-dark-subtle border rounded-3 d-flex flex-column align-items-center">
+          <h1 className='mt-5 mb-3'>Produkty</h1>
+          <table className="table w-75">
+            <thead>
+              <tr>
+                <th scope='col' className='text-center'>Produkt</th>
+                <th scope='col' className='text-center'>Cena</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Products.map(el=>(
+                <tr key={el.id}>
+                  <td className='text-center'>{el.name}</td>
+                  <td className='text-center'>{el.price}</td>
+              </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )
+  }
+}
+function ProductCard()
+{
+  var Products=[
+    {
+      "id":0,
+      "name":"examplename",
+      "price":5.0,
+      "description":"exampledesc",
+      "remaining":1,
+      "selected":false
+    }
+  ];
+
+  if(localStorage.getItem('loggedin')=='true')
+  {
+    return(
+      <section className="main row d-flex align-items-center justify-content-center">
+        <div className="col-8 h-75 bg-dark-subtle border rounded-3 d-flex flex-column align-items-center justify-content-center">
+        {Products.map(el=>(
+        <ul class="list-group w-75">
+          <li class="list-group-item text-center p-4"><p><b>Nazwa produktu:</b></p> {el.name}</li>
+          <li class="list-group-item text-center p-5"><p><b>Opis: </b></p>{el.description}</li>
+          <li class="list-group-item text-center p-3"><p><b>Cena: </b></p>{el.price}</li>
+          <li class="list-group-item text-center p-3"><p><b>Dostępna ilość: </b></p>{el.remaining}</li>
+        </ul>
+        ))}
+        </div>
+      </section>
+    )
+  }
+}
+
 function App() {
   
   return(
@@ -172,6 +254,8 @@ function App() {
           <Route path="" element={<Login></Login>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/register" element={<Register></Register>}></Route>
+          <Route path="/products" element={<ProductList></ProductList>}></Route>
+          <Route path="/cards" element={<ProductCard></ProductCard>}></Route>
         </Routes>
       </BrowserRouter>
       <Footer></Footer>
