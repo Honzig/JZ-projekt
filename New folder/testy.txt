@@ -1,4 +1,0 @@
-sizetest - Testy responsywności
-logintest i registertest - Testy logowania i rejestracji
-producttest - Testy listy i kart produktów
-carttest - Test koszyka
