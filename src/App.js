@@ -18,10 +18,6 @@ if(!localStorage.getItem('accounts'))
   }]
   localStorage.setItem('accounts',JSON.stringify(Accounts));
 }
-else
-{
-  Accounts=JSON.parse(localStorage.getItem('accounts'));
-}
 
 function Navbar()
 {
@@ -62,26 +58,26 @@ function Login(status)
   function Submit(e) {
     e.preventDefault();
 
-    Accounts=localStorage.getItem('accounts');
-    console.log(Accounts);
+    Accounts=JSON.parse(localStorage.getItem('accounts'));
 
     const form = e.target;
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
-
-    console.log(Accounts);
+    
     for(let i=0; i<Accounts.length; i++)
     {
-      if(Accounts[i].email===formJson.email && Accounts[i].password===hashCode(formJson.password))
-      {
-        console.log('Logged in!');
-      }
-      else
-      {
-        console.log('Failed to log in.');
-      }
+        if(Accounts[i].email===formJson.email && Accounts[i].password===hashCode(formJson.password))
+        {
+          console.log('Logged in!');
+          var loggedin=true;
+        }
     }
+    if(!loggedin)
+      {
+        console.log('Login failed.');
+      }
+    loggedin=false;
   }
 
   return(
@@ -112,8 +108,8 @@ function Register()
 {
   function Submit(e) {
     e.preventDefault();
-
-    console.log(Accounts);
+    
+    Accounts=JSON.parse(localStorage.getItem('accounts'));
 
     const form = e.target;
     const formData = new FormData(form);
@@ -167,6 +163,7 @@ function Register()
 }
 
 function App() {
+  
   return(
     <div className='container-fluid'>
       <Navbar></Navbar>
