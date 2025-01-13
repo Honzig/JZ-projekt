@@ -1,8 +1,16 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-var Emails=['admin@admin.admin'];
-var Passwords=['pass'];
+function hashCode(str) {
+  return str.split('').reduce((prevHash, currVal) =>
+    (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+}
+
+var Accounts=[
+  {
+  "email":"admin@admin.admin",
+  "password":hashCode('admin')
+}]
 
 function Navbar()
 {
@@ -47,14 +55,17 @@ function Login()
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson.email, formJson.password);
 
-    for(let i=0; i<Emails.length; i++)
+    for(let i=0; i<Accounts.length; i++)
     {
-      if(Emails[i]==formJson.email && Passwords[i]==formJson.password)
+      console.log(hashCode(formJson.password), Accounts[i].password);
+      if(Accounts[i].email==formJson.email && Accounts[i].password===hashCode(formJson.password))
       {
         console.log('Logged in!');
-
+      }
+      else
+      {
+        console.log('Failed to log in.');
       }
     }
   }
@@ -90,15 +101,14 @@ function Register()
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson.email, formJson.password);
 
     if(formJson.email!=null && formJson.password!=null)
     {
-      Emails.push(formJson.email);
-      Passwords.push(formJson.password);
+      Accounts.push(
+        {"email":formJson.email,
+        "password":hashCode(formJson.password)}
+      );
     }
-
-    console.log(Emails,Passwords);
   }
 
   return(
@@ -132,8 +142,8 @@ function App() {
   return(
     <div className='container-fluid'>
       <Navbar></Navbar>
-      {/* <Login></Login> */}
-      <Register></Register>
+      <Login></Login>
+      {/* <Register></Register> */}
       <Footer></Footer>
     </div>
   );
