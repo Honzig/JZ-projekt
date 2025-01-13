@@ -7,11 +7,21 @@ function hashCode(str) {
     (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
 }
 
-var Accounts=[
-  {
-  "email":"admin@admin.admin",
-  "password":hashCode('admin')
-}]
+
+
+if(!localStorage.getItem('accounts'))
+{var Accounts=
+  [
+    {
+    "email":"admin@admin.admin",
+    "password":hashCode('admin')
+  }]
+  localStorage.setItem('accounts',JSON.stringify(Accounts));
+}
+else
+{
+  Accounts=JSON.parse(localStorage.getItem('accounts'));
+}
 
 function Navbar()
 {
@@ -23,11 +33,11 @@ function Navbar()
                 <span className="navbar-toggler-icon"></span>
               </button> */}
               <div>
-                <div class="navbar-nav bg-light border rounded-3 ">
-                  <button class="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Logowanie</button>
-                  <button class="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Produkty</button>
-                  <button class="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Koszyk</button>
-                  <button class="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Informacje</button>
+                <div className="navbar-nav bg-light border rounded-3 ">
+                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Logowanie</button>
+                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Produkty</button>
+                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Koszyk</button>
+                  <button className="nav-item nav-link m-1 bg-dark-subtle border rounded-4 text-center">Informacje</button>
                 </div>
               </div>
             </nav>
@@ -52,15 +62,18 @@ function Login(status)
   function Submit(e) {
     e.preventDefault();
 
+    Accounts=localStorage.getItem('accounts');
+    console.log(Accounts);
+
     const form = e.target;
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
 
+    console.log(Accounts);
     for(let i=0; i<Accounts.length; i++)
     {
-      console.log(hashCode(formJson.password), Accounts[i].password);
-      if(Accounts[i].email==formJson.email && Accounts[i].password===hashCode(formJson.password))
+      if(Accounts[i].email===formJson.email && Accounts[i].password===hashCode(formJson.password))
       {
         console.log('Logged in!');
       }
@@ -76,11 +89,11 @@ function Login(status)
           <div className="col-5 h-50 bg-dark-subtle border rounded-3 d-flex flex-column align-items-center justify-content-center">
             <form className="p-1 w-75" onSubmit={Submit}>
               <div className="mb-3">
-                <label for="mail" className="form-label">Email</label>
-                <input name="email" type="email" className="email form-control" defaultValue="Email@a.a"></input>
+                <label htmlFor="mail" className="form-label">Email</label>
+                <input name="email" type="email" className="email form-control" defaultValue="Email"></input>
               </div>
               <div className="mb-3">
-                <label for="pass" className="form-label">Hasło</label>
+                <label htmlFor="pass" className="form-label">Hasło</label>
                 <input name="password" type="password" className="password form-control" defaultValue="Hasło"></input>
               </div>
               <div className="mb-3 text-center">
@@ -95,11 +108,12 @@ function Login(status)
     );
 }
 
-function Register(status)
+function Register()
 {
-  
   function Submit(e) {
     e.preventDefault();
+
+    console.log(Accounts);
 
     const form = e.target;
     const formData = new FormData(form);
@@ -112,8 +126,13 @@ function Register(status)
         {"email":formJson.email,
         "password":hashCode(formJson.password)}
       );
+      localStorage.setItem('accounts',JSON.stringify(Accounts));
 
-      
+      document.getElementById('reg').innerText="Konto stworzone!";
+    }
+    else
+    {
+      document.getElementById('reg').innerText="Wypełnij oba pola.";
     }
   }
 
@@ -122,21 +141,21 @@ function Register(status)
           <div className="col-5 h-50 bg-dark-subtle border rounded-3 d-flex flex-column align-items-center justify-content-center">
             <form className="p-1 w-75" onSubmit={Submit}>
               <div className="mb-3">
-                <label for="mail" className="form-label">Email</label>
-                <input name="email" type="email" className="email form-control" defaultValue="Email@a.a"></input>
+                <label htmlFor="mail" className="form-label">Email</label>
+                <input name="email" type="email" className="email form-control" defaultValue="Email"></input>
               </div>
               <div className="mb-3">
-                <label for="pass" className="form-label">Hasło</label>
+                <label htmlFor="pass" className="form-label">Hasło</label>
                 <input name="password" type="password" className="password form-control" defaultValue="Hasło"></input>
               </div>
               <div className="mt-3 form-check">
-               <input class="form-check-input" type="checkbox" required="required" value=""></input>
-               <label class="form-check-label" for="flexCheckDefault">
+               <input className="form-check-input" type="checkbox" required="required" value=""></input>
+               <label className="form-check-label" htmlFor="flexCheckDefault">
                  Zapoznałem/am się z <a href="regulamin">regulaminem</a>
                </label>
               </div>
               <div className="mt-2 text-center">
-                <button type="submit" className="btn bg-secondary text-light w-50">Stwórz konto</button>
+                <button type="submit" id="reg" className="btn bg-secondary text-light w-50">Stwórz konto</button>
               <div className="mt-3 text-center">
                 <a className="btn bg-secondary text-light w-50" href="/login">Logowanie</a>
               </div>
