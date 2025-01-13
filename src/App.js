@@ -1,4 +1,5 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 
 function hashCode(str) {
@@ -45,7 +46,7 @@ function Footer()
   );
 }
 
-function Login()
+function Login(status)
 {
   
   function Submit(e) {
@@ -82,8 +83,11 @@ function Login()
                 <label for="pass" className="form-label">Hasło</label>
                 <input name="password" type="password" className="password form-control" defaultValue="Hasło"></input>
               </div>
-              <div className="mt-5 text-center">
+              <div className="mb-3 text-center">
                 <button type="submit" className="btn bg-secondary text-light w-50">Zaloguj</button>
+              </div>
+              <div className="mt-4 text-center">
+                <a className="btn bg-secondary text-light w-50" href="/register">Rejestracja</a>
               </div>
             </form>
           </div>
@@ -91,7 +95,7 @@ function Login()
     );
 }
 
-function Register()
+function Register(status)
 {
   
   function Submit(e) {
@@ -108,6 +112,8 @@ function Register()
         {"email":formJson.email,
         "password":hashCode(formJson.password)}
       );
+
+      
     }
   }
 
@@ -124,13 +130,16 @@ function Register()
                 <input name="password" type="password" className="password form-control" defaultValue="Hasło"></input>
               </div>
               <div className="mt-3 form-check">
-               <input class="form-check-input" type="checkbox" value=""></input>
+               <input class="form-check-input" type="checkbox" required="required" value=""></input>
                <label class="form-check-label" for="flexCheckDefault">
-                 Zapoznałem/am się z <a href="#">regulaminem</a>
+                 Zapoznałem/am się z <a href="regulamin">regulaminem</a>
                </label>
               </div>
-              <div className="mt-3 text-center">
+              <div className="mt-2 text-center">
                 <button type="submit" className="btn bg-secondary text-light w-50">Stwórz konto</button>
+              <div className="mt-3 text-center">
+                <a className="btn bg-secondary text-light w-50" href="/login">Logowanie</a>
+              </div>
               </div>
             </form>
           </div>
@@ -142,8 +151,13 @@ function App() {
   return(
     <div className='container-fluid'>
       <Navbar></Navbar>
-      <Login></Login>
-      {/* <Register></Register> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="" element={<Login></Login>}></Route>
+          <Route path="/login" element={<Login></Login>}></Route>
+          <Route path="/register" element={<Register></Register>}></Route>
+        </Routes>
+      </BrowserRouter>
       <Footer></Footer>
     </div>
   );
