@@ -1,6 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
+var Emails=['admin@admin.admin'];
+var Passwords=['pass'];
+
 function Navbar()
 {
   return(
@@ -38,18 +41,22 @@ function Login()
 {
   
   function Submit(e) {
-    // Prevent the browser from reloading the page
     e.preventDefault();
 
-    // Read the form data
     const form = e.target;
     const formData = new FormData(form);
 
-    // Or you can work with it as a plain object:
     const formJson = Object.fromEntries(formData.entries());
     console.log(formJson.email, formJson.password);
 
-    
+    for(let i=0; i<Emails.length; i++)
+    {
+      if(Emails[i]==formJson.email && Passwords[i]==formJson.password)
+      {
+        console.log('Logged in!');
+
+      }
+    }
   }
 
   return(
