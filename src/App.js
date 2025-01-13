@@ -80,11 +80,60 @@ function Login()
     );
 }
 
+function Register()
+{
+  
+  function Submit(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const formJson = Object.fromEntries(formData.entries());
+    console.log(formJson.email, formJson.password);
+
+    if(formJson.email!=null && formJson.password!=null)
+    {
+      Emails.push(formJson.email);
+      Passwords.push(formJson.password);
+    }
+
+    console.log(Emails,Passwords);
+  }
+
+  return(
+        <main className="main row d-flex align-items-center justify-content-center">
+          <div className="col-5 h-50 bg-dark-subtle border rounded-3 d-flex flex-column align-items-center justify-content-center">
+            <form className="p-1 w-75" onSubmit={Submit}>
+              <div className="mb-3">
+                <label for="mail" className="form-label">Email</label>
+                <input name="email" type="email" className="email form-control" defaultValue="Email@a.a"></input>
+              </div>
+              <div className="mb-3">
+                <label for="pass" className="form-label">Hasło</label>
+                <input name="password" type="password" className="password form-control" defaultValue="Hasło"></input>
+              </div>
+              <div className="mt-3 form-check">
+               <input class="form-check-input" type="checkbox" value=""></input>
+               <label class="form-check-label" for="flexCheckDefault">
+                 Zapoznałem/am się z <a href="#">regulaminem</a>
+               </label>
+              </div>
+              <div className="mt-3 text-center">
+                <button type="submit" className="btn bg-secondary text-light w-50">Stwórz konto</button>
+              </div>
+            </form>
+          </div>
+        </main>
+    );
+}
+
 function App() {
   return(
     <div className='container-fluid'>
       <Navbar></Navbar>
-      <Login></Login>
+      {/* <Login></Login> */}
+      <Register></Register>
       <Footer></Footer>
     </div>
   );
